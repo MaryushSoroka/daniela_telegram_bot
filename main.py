@@ -1,6 +1,6 @@
 import requests
-from telegram import Update
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, CallbackQueryHandler
 
 from resources import *
 
@@ -74,7 +74,10 @@ def nextLevel(bot, chat_id):
         # print(msg.photo[-1].file_id)
 
     for str in strList:
-        msg = bot.send_message(chat_id, str)
+
+        keyboardMarkup = InlineKeyboardMarkup.from_button(InlineKeyboardButton('Следующая страничка', callback_data='u'))
+
+        msg = bot.send_message(chat_id, str, reply_markup=keyboardMarkup)
         print(str)
 
     # for str in messages[users[chat_id]]:
@@ -148,6 +151,12 @@ def reply(update: Update, context: CallbackContext):
             print('{name}: {text}; ans: пробуй еще'.format(name=update.effective_chat.first_name, text=text))
 
 
+def button(update: Update, context: CallbackContext):
+    query = update.callback_query
+    query.answer()
+    next(update, context)
+
+
 def main():
     updater = Updater('1317680111:AAHyis9cLcA1phN4ILjhfPI6vPY9Bnwd6mw')
     dp = updater.dispatcher
@@ -156,6 +165,7 @@ def main():
     dp.add_handler(CommandHandler('restart', restart))
     dp.add_handler(CommandHandler('next', next))
     dp.add_handler(mh)
+    dp.add_handler(CallbackQueryHandler(button))
     updater.start_polling()
     updater.idle()
 
