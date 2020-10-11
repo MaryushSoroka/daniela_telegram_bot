@@ -74,7 +74,7 @@ def nextLevel(bot, chat_id):
         # print(msg.photo[-1].file_id)
 
     for str in strList:
-        bot.send_message(chat_id, str)
+        msg = bot.send_message(chat_id, str)
         print(str)
 
     # for str in messages[users[chat_id]]:
@@ -85,10 +85,10 @@ def bullsAndCows(ans, guess):
     try:
         int(guess)
     except ValueError:
-        return "Вводи цифры, а?"
+        return "Ящик открывается четырьмя цифрами"
 
     if len(guess.replace(' ', '')) != 4:
-        return "4 цифры, пожалуйста"
+        return "Ящик открывается четырьмя цифрами"
 
     if len(list(guess)) != len(set(guess)):
         return "Цифры не должны повторяться"
@@ -149,7 +149,7 @@ def reply(update: Update, context: CallbackContext):
 
 
 def main():
-    updater = Updater('1227978888:AAHkkmUt6YBjR8aE3n8XSsHKuBuDAIWxNQs')
+    updater = Updater('1317680111:AAHyis9cLcA1phN4ILjhfPI6vPY9Bnwd6mw')
     dp = updater.dispatcher
     mh = MessageHandler(Filters.all, reply)
     dp.add_handler(CommandHandler('start', start))
